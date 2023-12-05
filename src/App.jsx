@@ -17,7 +17,7 @@ function App() {
     
     // is it res.data or something else like res.name? our key is name and the value is the category
   }, []);
-  console.log("render runs");
+  // console.log("render runs");
 
 /**
  * categories looks like: 
@@ -34,7 +34,7 @@ function App() {
     <div>
       <div className="category-list">
         {categories.map((category) => (
-          <Category key={category.id} name={category.name} />
+          <Category key={category.id} id={category.id} name={category.name} />
         ))}
       </div>
     </div>
