@@ -1,12 +1,13 @@
 // import { useState } from 'react'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Category from "./Category";
 import axios from "axios";
-import { useEffect } from "react";
 
 function App() {
   const [categories, setCategories] = useState([]);
+  const [selectedCategoryID, setSelectedCategoryID] = useState(null);
+  
 
   useEffect(() => {
     console.log("useEffect runs");
@@ -14,12 +15,14 @@ function App() {
       setCategories(result.data.trivia_categories);
       // console.log(result)
     });
-    
+
     // is it res.data or something else like res.name? our key is name and the value is the category
   }, []);
   // console.log("render runs");
 
-/**
+  // }
+
+  /**
  * categories looks like: 
  * [
  * {
@@ -29,12 +32,16 @@ function App() {
  * ]
  */
 
-
   return (
     <div>
-      <div className="category-list">
+      <div className="category-list"><div>{selectedCategoryID}</div>
         {categories.map((category) => (
-          <Category key={category.id} id={category.id} name={category.name} />
+          <Category
+            key={category.id}
+            id={category.id}
+            name={category.name}
+            selectCategory={setSelectedCategoryID}
+          />
         ))}
       </div>
     </div>

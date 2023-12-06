@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
+import Questions from "./Q&A";
+import { useState } from "react";
 
 function Category(props) {
   console.log(props);
-  // const [selectedCategory, setSelectedCategory] = useState('');
+  const [QAData, setQAData] = useState([]);
   // // when we select a category, navigate to the page and return a string with the questions
 
   const handleSelectedCategoryClick = () => {
@@ -14,14 +16,18 @@ function Category(props) {
         //     // this is just for ONE random category right now, we need to update it with template literal to select the one we actually want
       )
       .then((result) => {
-        console.log(result);
+        console.log("result: ", result);
+        setQAData(result.data.results);
+        props.selectCategory(props.id)
       });
   };
+
 
   return (
     <div>
       <button onClick={handleSelectedCategoryClick}>{props.name}</button>
       {/* <button >Test</button> */}
+      <Questions data={QAData} />
     </div>
   );
 }
