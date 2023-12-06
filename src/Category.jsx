@@ -12,7 +12,7 @@ function Category(props) {
     axios
       // what i'm trying to do below is send a request for 10 questions from one category of the Trivia API and have them appear when we click the button
       .get(
-        "https://opentdb.com/api.php?amount=10&category=12&difficulty=easy&type=multiple"
+        "https://opentdb.com/api.php?amount=10&category=" + `${props.id}` + "&difficulty=easy&type=multiple"
         //     // this is just for ONE random category right now, we need to update it with template literal to select the one we actually want
       )
       .then((result) => {

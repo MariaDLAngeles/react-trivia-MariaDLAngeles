@@ -6,9 +6,9 @@ import axios from "axios";
 
 function App() {
   const [categories, setCategories] = useState([]);
+  // if not null then show only this category instead of the full list
   const [selectedCategoryID, setSelectedCategoryID] = useState(null);
   
-
   useEffect(() => {
     console.log("useEffect runs");
     axios.get("https://opentdb.com/api_category.php").then((result) => {

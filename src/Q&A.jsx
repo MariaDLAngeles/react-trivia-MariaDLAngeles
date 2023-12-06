@@ -9,6 +9,13 @@ function Questions(props) {
   // props.data is an array, only show questions if data has any data
   const isQuestionsEmpty = props.data.length === 0;
 
+  //this is so we can cycle through our questions
+  const [questionIndex, setQuestionIndex] = useState(0)
+
+  const handleNextQuestionClick = () => {
+    setQuestionIndex(questionIndex + 1)
+  }
+
   /**
    * props.data is an array like:
    * [
@@ -31,12 +38,16 @@ function Questions(props) {
 
   return isQuestionsEmpty ? null : (
     <div>
-      QUESTION:
-      <br></br>
-      {props.data.map((questionObject) => (
+      {/* this code was for displaying our questions in a list */}
+      {/* {props.data.map((questionObject) => (
         <div>{questionObject.question}</div>
+        
       ))
-      }
+      } */}
+      {props.data[questionIndex].question}
+      <button onClick={handleNextQuestionClick}>Next Question</button>
+
+
     </div>
   );
 }
