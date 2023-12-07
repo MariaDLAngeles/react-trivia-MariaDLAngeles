@@ -8,7 +8,7 @@ function App() {
   const [categories, setCategories] = useState([]);
   // if not null then show only this category instead of the full list
   const [selectedCategoryID, setSelectedCategoryID] = useState(null);
-  
+
   useEffect(() => {
     console.log("useEffect runs");
     axios.get("https://opentdb.com/api_category.php").then((result) => {
@@ -31,10 +31,30 @@ function App() {
 		}, ...etc
  * ]
  */
+  if (selectedCategoryID != null) {
+    // only show selected category
+    //we have our id
+    // find the name of category that is = to our id
+    // pull a category from our array -- javascript array find object
 
+    const searchCategoryObject = categories.find((category) => category.id === selectedCategoryID)
+
+    return <div>
+        <div className="category-list">
+          {/* right now we are having to click twice to get to our questions */}
+        <Category
+            id={selectedCategoryID}
+            name={searchCategoryObject.name}
+            selectCategory={setSelectedCategoryID}
+          />
+        </div>
+    </div>;
+  }
+  // else 
   return (
     <div>
-      <div className="category-list"><div>{selectedCategoryID}</div>
+      <div className="category-list">
+        {/* <div>{selectedCategoryID}</div> */}
         {categories.map((category) => (
           <Category
             key={category.id}
