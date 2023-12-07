@@ -2,7 +2,7 @@
 // this component needs to display our questions and answers
 // we navigate here after a category has been selected
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import shuffle from "lodash.shuffle";
 
 function Questions(props) {
@@ -17,11 +17,37 @@ function Questions(props) {
   //this is so we can select whatever answer we want and change it up until we submit it
   const [selectedAnswer, setSelectedAnswer] = useState("");
 
+  const [shuffledAnswers, setShuffledAnswers] = useState([]);
+
+  useEffect(() => {
+    console.log("in useEffect");
+    const allAnswers = [];
+    if (props.data.length > 0) {
+      //this is adding the correct answer
+      allAnswers.push({
+        answerString: props.data[questionObjectIndex].correct_answer,
+        isCorrect: true,
+      });
+      //next we add the incorrect answers
+      props.data[questionObjectIndex].incorrect_answers.forEach(
+        (incorrectAnswer) => {
+          allAnswers.push({
+            answerString: incorrectAnswer,
+            isCorrect: false,
+          });
+        }
+      );
+    }
+    setShuffledAnswers(shuffle(allAnswers));
+  }, [questionObjectIndex, props.data]);
+
   const handleNextQuestionClick = () => {
     if (selectedAnswer === props.data[questionObjectIndex].correct_answer) {
-      setRecordedCorrectAnswers(recordedCorrectAnswers.concat([selectedAnswer]));
+      setRecordedCorrectAnswers(
+        recordedCorrectAnswers.concat([selectedAnswer])
+      );
       // if isCorrect is true, then change the state to + 1, else do nothing
-      console.log(recordedCorrectAnswers);
+      console.log("this is", recordedCorrectAnswers);
     }
 
     setQuestionObjectIndex(
@@ -31,10 +57,7 @@ function Questions(props) {
     );
   };
 
-  // when we click the data that we are getting needs to be the answer string and the isCorrect
-  //
   const handleSelectedAnswerClick = (event) => {
-    // setSelectedAnswer(selectedAnswer === isCorrect);
     console.log("this is event", event);
     // answer is event.target.innerText -- technically not react, but the only way out is down
     // if we have time, we'll change it to make answers its own compontent
@@ -72,28 +95,7 @@ function Questions(props) {
   //we need to take those list items as a new list below the question
   // they need to be buttons or in some way clickable so we can register an answer
 
-  const allAnswers = [];
-  if (props.data.length > 0) {
-    //this is adding the correct answer
-    allAnswers.push({
-      answerString: props.data[questionObjectIndex].correct_answer,
-      isCorrect: true,
-    });
-    //next we add the incorrect answers
-    props.data[questionObjectIndex].incorrect_answers.forEach(
-      (incorrectAnswer) => {
-        allAnswers.push({
-          answerString: incorrectAnswer,
-          isCorrect: false,
-        });
-      }
-    );
-  }
-  // console.log("this is allAnswers", allAnswers);
-
-  const shuffledAnswers = shuffle(allAnswers);
-
-  // console.log("this is shuffledAnswers", shuffledAnswers);
+  // we want shuffling to happen to the answers when a question loads, after the question loads the answers should not change. The user clicks the next question and the cycle begins again.
 
   // on the click of my answer
   // SELECT the answer (change the color of the button to indicate the change)
