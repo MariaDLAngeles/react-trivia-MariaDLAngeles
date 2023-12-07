@@ -1,9 +1,8 @@
+/* eslint-disable react/prop-types */
 // this component needs to display our questions and answers
 // we navigate here after a category has been selected
 
-import axios, { all } from "axios";
-import { useEffect, useState } from "react";
-// import { shuffle } from "lodash";
+import { useState } from "react";
 import shuffle from "lodash.shuffle";
 
 function Questions(props) {
@@ -13,10 +12,38 @@ function Questions(props) {
 
   //this is so we can cycle through our questions
   const [questionObjectIndex, setQuestionObjectIndex] = useState(0);
+  //this is so we can record how many questions are correct
+  const [recordedCorrectAnswers, setRecordedCorrectAnswers] = useState([]);
+  //this is so we can select whatever answer we want and change it up until we submit it
+  const [selectedAnswer, setSelectedAnswer] = useState("");
 
   const handleNextQuestionClick = () => {
-    setQuestionObjectIndex(questionObjectIndex + 1);
+    if (selectedAnswer === props.data[questionObjectIndex].correct_answer) {
+      setRecordedCorrectAnswers(recordedCorrectAnswers.concat([selectedAnswer]));
+      // if isCorrect is true, then change the state to + 1, else do nothing
+      console.log(recordedCorrectAnswers);
+    }
+
+    setQuestionObjectIndex(
+      questionObjectIndex === props.data.length - 1
+        ? questionObjectIndex
+        : questionObjectIndex + 1
+    );
   };
+
+  // when we click the data that we are getting needs to be the answer string and the isCorrect
+  //
+  const handleSelectedAnswerClick = (event) => {
+    // setSelectedAnswer(selectedAnswer === isCorrect);
+    console.log("this is event", event);
+    // answer is event.target.innerText -- technically not react, but the only way out is down
+    // if we have time, we'll change it to make answers its own compontent
+    setSelectedAnswer(event.target.innerText);
+  };
+
+  // when we click next question, we need to record isCorrect true/false
+  // count how many true (correct)
+  // display count at end of quiz
 
   const incorrectAnswers = props.data.incorrect_answers;
   console.log("this is incorrect answers", incorrectAnswers);
@@ -62,11 +89,19 @@ function Questions(props) {
       }
     );
   }
-  console.log("this is allAnswers", allAnswers);
+  // console.log("this is allAnswers", allAnswers);
 
   const shuffledAnswers = shuffle(allAnswers);
 
-  console.log("this is shuffledAnswers", shuffledAnswers);
+  // console.log("this is shuffledAnswers", shuffledAnswers);
+
+  // on the click of my answer
+  // SELECT the answer (change the color of the button to indicate the change)
+  // disable the next button until a selection is made
+  // if a selection has been made
+  //when we click the next button
+  // record the value of isCorrect from the selected answer
+  // and add it to an empty array
 
   return isQuestionsEmpty ? null : (
     <div>
@@ -80,7 +115,9 @@ function Questions(props) {
       <br></br>
       <strong>Answers:</strong>{" "}
       {shuffledAnswers.map((answer) => (
-        <button>{answer.answerString}</button>
+        <button onClick={handleSelectedAnswerClick} key={answer.answerString}>
+          {answer.answerString}
+        </button>
       ))}
       <br></br>
       <button onClick={handleNextQuestionClick}>Next Question</button>
