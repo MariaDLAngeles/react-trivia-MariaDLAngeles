@@ -8,6 +8,7 @@ function App() {
   const [categories, setCategories] = useState([]);
   // if not null then show only this category instead of the full list
   const [selectedCategoryID, setSelectedCategoryID] = useState(null);
+  const [selectedQAData, setSelectedQAData] = useState([])
 
   useEffect(() => {
     console.log("useEffect runs");
@@ -37,20 +38,25 @@ function App() {
     // find the name of category that is = to our id
     // pull a category from our array -- javascript array find object
 
-    const searchCategoryObject = categories.find((category) => category.id === selectedCategoryID)
+    const searchCategoryObject = categories.find(
+      (category) => category.id === selectedCategoryID
+    );
 
-    return <div>
-        <div className="category-list">
-          {/* right now we are having to click twice to get to our questions */}
+    return (
+      <div className="selected-category">
+        {/* right now we are having to click twice to get to our questions */}
         <Category
-            id={selectedCategoryID}
-            name={searchCategoryObject.name}
-            selectCategory={setSelectedCategoryID}
-          />
-        </div>
-    </div>;
+          id={selectedCategoryID}
+          name={searchCategoryObject.name}
+          selectCategory={setSelectedCategoryID}
+          selectedQAData={selectedQAData}
+          setSelectedQAData={setSelectedQAData}
+
+        />
+      </div>
+    );
   }
-  // else 
+  // else
   return (
     <div>
       <div className="category-list">
@@ -61,6 +67,8 @@ function App() {
             id={category.id}
             name={category.name}
             selectCategory={setSelectedCategoryID}
+            selectedQAData={selectedQAData}
+          setSelectedQAData={setSelectedQAData}
           />
         ))}
       </div>

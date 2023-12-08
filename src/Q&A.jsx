@@ -106,21 +106,23 @@ function Questions(props) {
   // and add it to an empty array
 
   return isQuestionsEmpty ? null : (
-    <div>
+    <div className="QA-block">
       {/* this code was for displaying our questions in a list */}
       {/* {props.data.map((questionObject) => (
         <div>{questionObject.question}</div>
         
       ))
       } */}
-      <strong>Question:</strong> {props.data[questionObjectIndex].question}
+      <div><strong>Question:</strong> {props.data[questionObjectIndex].question}</div>
       <br></br>
+      <div className="answers">
       <strong>Answers:</strong>{" "}
       {shuffledAnswers.map((answer) => (
-        <button onClick={handleSelectedAnswerClick} key={answer.answerString}>
+        <button className="answer-buttons" onClick={handleSelectedAnswerClick} key={answer.answerString}>
           {answer.answerString}
         </button>
       ))}
+      </div>
       <br></br>
       <button onClick={handleNextQuestionClick}>Next Question</button>
     </div>
