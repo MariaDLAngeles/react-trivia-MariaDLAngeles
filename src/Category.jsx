@@ -19,7 +19,7 @@ function Category(props) {
 
   return (
     <div className="selected-category-div">
-      <button onClick={handleSelectedCategoryClick}>{props.name}</button>
+      <button className="category-buttons" onClick={handleSelectedCategoryClick}>{props.name}</button>
       {/* <button >Test</button> */}
       <Questions data={props.selectedQAData} />
     </div>

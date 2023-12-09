@@ -58,7 +58,10 @@ function App() {
   }
   // else
   return (
-    <div>
+    <div className="outer-category-list-div">
+      <h1 className="welcome-title">Welcome to Risky Quizness!
+      </h1>
+      <h2 className="category-instructions">Risky Quizness is a low-stakes way to test your trivia knowledge.<br></br> Choose a category below to start a quiz.</h2>
       <div className="category-list">
         {/* <div>{selectedCategoryID}</div> */}
         {categories.map((category) => (

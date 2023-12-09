@@ -106,6 +106,9 @@ function Questions(props) {
   // and add it to an empty array
 
   return isQuestionsEmpty ? null : (
+    <div className="QA-headings-block">
+      <h2>(Name) Quiz!</h2>
+      <h3>Choose an answer and click "Next Question" to continue.</h3>
     <div className="QA-block">
       {/* this code was for displaying our questions in a list */}
       {/* {props.data.map((questionObject) => (
@@ -113,7 +116,7 @@ function Questions(props) {
         
       ))
       } */}
-      <div><strong>Question:</strong> {props.data[questionObjectIndex].question}</div>
+      <div className="question"><strong>Question:</strong> {props.data[questionObjectIndex].question}</div>
       <br></br>
       <div className="answers">
       <strong>Answers:</strong>{" "}
@@ -124,7 +127,8 @@ function Questions(props) {
       ))}
       </div>
       <br></br>
-      <button onClick={handleNextQuestionClick}>Next Question</button>
+      <button className="next-question-button" onClick={handleNextQuestionClick}>Next Question</button>
+    </div>
     </div>
   );
 }
