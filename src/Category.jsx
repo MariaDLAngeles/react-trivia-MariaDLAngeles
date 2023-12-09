@@ -19,9 +19,19 @@ function Category(props) {
 
   return (
     <div className="selected-category-div">
-      <button className="category-buttons" onClick={handleSelectedCategoryClick}>{props.name}</button>
+      <button
+        className="category-buttons"
+        onClick={handleSelectedCategoryClick}
+      >
+        {props.name}
+      </button>
       {/* <button >Test</button> */}
-      <Questions data={props.selectedQAData} />
+      {props.showQuestions === true ? (
+        <Questions
+          data={props.selectedQAData}
+          selectCategory={props.selectCategory}
+        />
+      ) : null}
     </div>
   );
 }

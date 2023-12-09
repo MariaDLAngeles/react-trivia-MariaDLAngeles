@@ -64,6 +64,10 @@ function Questions(props) {
     setSelectedAnswer(event.target.innerText);
   };
 
+  const handleReturnToCategoryPageClick = () => {
+      props.selectCategory(null)
+  }
+
   // when we click next question, we need to record isCorrect true/false
   // count how many true (correct)
   // display count at end of quiz
@@ -129,6 +133,8 @@ function Questions(props) {
       <br></br>
       <button className="next-question-button" onClick={handleNextQuestionClick}>Next Question</button>
     </div>
+    <br></br>
+    <div className="back-to-category-page"><h3>Go Back to <a onClick={handleReturnToCategoryPageClick}>Category Page</a></h3></div>
     </div>
   );
 }

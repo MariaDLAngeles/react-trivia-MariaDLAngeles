@@ -8,18 +8,24 @@ function App() {
   const [categories, setCategories] = useState([]);
   // if not null then show only this category instead of the full list
   const [selectedCategoryID, setSelectedCategoryID] = useState(null);
-  const [selectedQAData, setSelectedQAData] = useState([])
+  const [selectedQAData, setSelectedQAData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     console.log("useEffect runs");
     axios.get("https://opentdb.com/api_category.php").then((result) => {
+      setLoading(false);
       setCategories(result.data.trivia_categories);
       // console.log(result)
     });
 
     // is it res.data or something else like res.name? our key is name and the value is the category
   }, []);
+
   // console.log("render runs");
+  if (loading) {
+    return <h1> ✨🪩 Loading... 🪩✨</h1>;
+  }
 
   // }
 
@@ -51,7 +57,7 @@ function App() {
           selectCategory={setSelectedCategoryID}
           selectedQAData={selectedQAData}
           setSelectedQAData={setSelectedQAData}
-
+          showQuestions={true}
         />
       </div>
     );
@@ -59,9 +65,11 @@ function App() {
   // else
   return (
     <div className="outer-category-list-div">
-      <h1 className="welcome-title">Welcome to Risky Quizness!
-      </h1>
-      <h2 className="category-instructions">Risky Quizness is a low-stakes way to test your trivia knowledge.<br></br> Choose a category below to start a quiz.</h2>
+      <h1 className="welcome-title">Welcome to Risky Quizness!</h1>
+      <h2 className="category-instructions">
+        Risky Quizness is a low-stakes way to test your trivia knowledge.
+        <br></br> Choose a category below to start a quiz.
+      </h2>
       <div className="category-list">
         {/* <div>{selectedCategoryID}</div> */}
         {categories.map((category) => (
@@ -71,7 +79,8 @@ function App() {
             name={category.name}
             selectCategory={setSelectedCategoryID}
             selectedQAData={selectedQAData}
-          setSelectedQAData={setSelectedQAData}
+            setSelectedQAData={setSelectedQAData}
+            showQuestions={false}
           />
         ))}
       </div>
