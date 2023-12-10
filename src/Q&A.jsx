@@ -4,6 +4,8 @@
 
 import { useEffect, useState } from "react";
 import shuffle from "lodash.shuffle";
+import unescape from "lodash.unescape";
+//LOLOLOLOL -- lodash unescape won't handle apostrophe's, it's not us, it's the SYSTEM. The trivia API is returning &#039; when lodash expects it to be &#39;
 
 function Questions(props) {
   console.log("this is props in questions", props);
@@ -18,6 +20,8 @@ function Questions(props) {
   const [selectedAnswer, setSelectedAnswer] = useState("");
 
   const [shuffledAnswers, setShuffledAnswers] = useState([]);
+
+  const [finishedQuiz, setFinishedQuiz] = useState(false);
 
   useEffect(() => {
     console.log("in useEffect");
@@ -57,6 +61,14 @@ function Questions(props) {
     );
   };
 
+  const handleFinishQuizClick = () => {
+    setFinishedQuiz(true);
+  };
+
+  const endOfQuizResults = () => {
+    // this is where correct answer count needs to go
+  };
+
   const handleSelectedAnswerClick = (event) => {
     console.log("this is event", event);
     // answer is event.target.innerText -- technically not react, but the only way out is down
@@ -65,8 +77,8 @@ function Questions(props) {
   };
 
   const handleReturnToCategoryPageClick = () => {
-      props.selectCategory(null)
-  }
+    props.selectCategory(null);
+  };
 
   // when we click next question, we need to record isCorrect true/false
   // count how many true (correct)
@@ -108,33 +120,65 @@ function Questions(props) {
   //when we click the next button
   // record the value of isCorrect from the selected answer
   // and add it to an empty array
+  if (finishedQuiz) {
+    return (
+      <div>
+        <h1>You got ___ questions right!</h1>
+        <h2>Review your answers here.</h2>
+      </div>
+    );
+  }
 
   return isQuestionsEmpty ? null : (
     <div className="QA-headings-block">
       <h2>(Name) Quiz!</h2>
-      <h3>Choose an answer and click "Next Question" to continue.</h3>
-    <div className="QA-block">
-      {/* this code was for displaying our questions in a list */}
-      {/* {props.data.map((questionObject) => (
+      <h3>Choose an answer and click Next Question to continue.</h3>
+      <div className="QA-block">
+        {/* this code was for displaying our questions in a list */}
+        {/* {props.data.map((questionObject) => (
         <div>{questionObject.question}</div>
         
       ))
       } */}
-      <div className="question"><strong>Question:</strong> {props.data[questionObjectIndex].question}</div>
-      <br></br>
-      <div className="answers">
-      <strong>Answers:</strong>{" "}
-      {shuffledAnswers.map((answer) => (
-        <button className="answer-buttons" onClick={handleSelectedAnswerClick} key={answer.answerString}>
-          {answer.answerString}
-        </button>
-      ))}
+        <div className="question">
+          <strong>Question:</strong>
+          {/* {props.data[questionObjectIndex].question} */}
+          {unescape(props.data[questionObjectIndex].question)}
+        </div>
+        <br></br>
+        <div className="answers">
+          <strong>Answers:</strong>{" "}
+          {shuffledAnswers.map((answer) => (
+            <button
+              className="answer-buttons"
+              onClick={handleSelectedAnswerClick}
+              key={answer.answerString}
+            >
+              {unescape(answer.answerString)}
+            </button>
+          ))}
+        </div>
+        <br></br>
+        {questionObjectIndex === props.data.length - 1
+        ? <button
+        className="finished-quiz-button"
+        onClick={handleFinishQuizClick}
+      >
+        Finish Quiz
+      </button> : <button
+          className="next-question-button"
+          onClick={handleNextQuestionClick}
+        >
+          Next Question
+        </button>}
       </div>
       <br></br>
-      <button className="next-question-button" onClick={handleNextQuestionClick}>Next Question</button>
-    </div>
-    <br></br>
-    <div className="back-to-category-page"><h3>Go Back to <a onClick={handleReturnToCategoryPageClick}>Category Page</a></h3></div>
+      <div className="back-to-category-page">
+        <h3>
+          Go Back to{" "}
+          <a onClick={handleReturnToCategoryPageClick}>Category Page</a>
+        </h3>
+      </div>
     </div>
   );
 }

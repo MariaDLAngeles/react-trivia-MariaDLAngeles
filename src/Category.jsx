@@ -17,15 +17,14 @@ function Category(props) {
       });
   };
 
-  return (
+  
+    return (
     <div className="selected-category-div">
-      <button
+      {props.showQuestions === false ? (<button
         className="category-buttons"
-        onClick={handleSelectedCategoryClick}
-      >
+        onClick={handleSelectedCategoryClick}> 
         {props.name}
-      </button>
-      {/* <button >Test</button> */}
+      </button>) : null}
       {props.showQuestions === true ? (
         <Questions
           data={props.selectedQAData}
