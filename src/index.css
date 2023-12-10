@@ -120,7 +120,7 @@ color: white;
   
 }
 
-.next-question-button {
+.next-question-button, .finished-quiz-button {
   float: right;
   padding: 15px;
   font-size: large;

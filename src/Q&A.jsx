@@ -65,8 +65,8 @@ function Questions(props) {
     setFinishedQuiz(true);
   };
 
-  const endOfQuizResults = () => {
-    // this is where correct answer count needs to go
+  const countrecordedCorrectAnswers = () => {
+    return recordedCorrectAnswers.length
   };
 
   const handleSelectedAnswerClick = (event) => {
@@ -120,18 +120,22 @@ function Questions(props) {
   //when we click the next button
   // record the value of isCorrect from the selected answer
   // and add it to an empty array
+  console.log('this is # of correct', countrecordedCorrectAnswers())
   if (finishedQuiz) {
     return (
-      <div>
-        <h1>You got ___ questions right!</h1>
+      <div className="QA-headings-block">
+      <h2>{props.data[0].category} Quiz!</h2>
+      <div className="QA-block">
+        <h1>You got {countrecordedCorrectAnswers()} questions right!</h1>
         <h2>Review your answers here.</h2>
+      </div>
       </div>
     );
   }
 
   return isQuestionsEmpty ? null : (
     <div className="QA-headings-block">
-      <h2>(Name) Quiz!</h2>
+      <h2>{props.data[0].category} Quiz!</h2>
       <h3>Choose an answer and click Next Question to continue.</h3>
       <div className="QA-block">
         {/* this code was for displaying our questions in a list */}
@@ -161,16 +165,16 @@ function Questions(props) {
         <br></br>
         {questionObjectIndex === props.data.length - 1
         ? <button
+        className="next-question-button"
+        onClick={handleNextQuestionClick}
+      >
+        Next Question
+      </button> : <button
         className="finished-quiz-button"
         onClick={handleFinishQuizClick}
       >
         Finish Quiz
-      </button> : <button
-          className="next-question-button"
-          onClick={handleNextQuestionClick}
-        >
-          Next Question
-        </button>}
+      </button>}
       </div>
       <br></br>
       <div className="back-to-category-page">
