@@ -17,7 +17,6 @@ function Category(props) {
       });
   };
 
-  
     return (
     <div className="selected-category-div">
       {props.showQuestions === false ? (<button

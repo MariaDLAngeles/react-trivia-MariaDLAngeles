@@ -4,6 +4,7 @@
 
 import { useEffect, useState } from "react";
 import shuffle from "lodash.shuffle";
+// import nth from "lodash.nth"
 import unescape from "lodash.unescape";
 //LOLOLOLOL -- lodash unescape won't handle apostrophe's, it's not us, it's the SYSTEM. The trivia API is returning &#039; when lodash expects it to be &#39;
 
@@ -17,7 +18,7 @@ function Questions(props) {
   //this is so we can record how many questions are correct
   const [recordedCorrectAnswers, setRecordedCorrectAnswers] = useState([]);
   //this is so we can select whatever answer we want and change it up until we submit it
-  const [selectedAnswer, setSelectedAnswer] = useState("");
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
 
   const [shuffledAnswers, setShuffledAnswers] = useState([]);
 
@@ -59,6 +60,9 @@ function Questions(props) {
         ? questionObjectIndex
         : questionObjectIndex + 1
     );
+
+    setSelectedAnswer(null);
+
   };
 
   const handleFinishQuizClick = () => {
@@ -66,7 +70,7 @@ function Questions(props) {
   };
 
   const countrecordedCorrectAnswers = () => {
-    return recordedCorrectAnswers.length
+    return recordedCorrectAnswers.length;
   };
 
   const handleSelectedAnswerClick = (event) => {
@@ -106,6 +110,8 @@ function Questions(props) {
   ]
    */
 
+  
+
   // we need to combine the correct answer with the incorrect answers, while keeping track of what the correct answer is
   // we need to shuffle the combined list
   //we need to take those list items as a new list below the question
@@ -120,15 +126,18 @@ function Questions(props) {
   //when we click the next button
   // record the value of isCorrect from the selected answer
   // and add it to an empty array
-  console.log('this is # of correct', countrecordedCorrectAnswers())
+  console.log("this is # of correct", countrecordedCorrectAnswers());
   if (finishedQuiz) {
     return (
       <div className="QA-headings-block">
-      <h2>{props.data[0].category} Quiz!</h2>
-      <div className="QA-block">
-        <h1>You got {countrecordedCorrectAnswers()} questions right!</h1>
-        <h2><a onClick={handleReturnToCategoryPageClick}>Click here</a> to try another quiz!</h2>
-      </div>
+        <h2>{props.data[0].category} Quiz!</h2>
+        <div className="QA-block">
+          <h1>You got {countrecordedCorrectAnswers()} questions right!</h1>
+          <h2>
+            <a onClick={handleReturnToCategoryPageClick}>Click here</a> to try
+            another quiz!
+          </h2>
+        </div>
       </div>
     );
   }
@@ -145,13 +154,12 @@ function Questions(props) {
       ))
       } */}
         <div className="question">
-          <strong>Question:</strong>
-          {props.data[questionObjectIndex].question}
+          <strong>Question:</strong>{" "}
           {unescape(props.data[questionObjectIndex].question)}
         </div>
         <br></br>
         <div className="answers">
-          <strong>Answers:</strong>{" "}
+          {/* <strong>Choose one:</strong>{" "} */}
           {shuffledAnswers.map((answer) => (
             <button
               className="answer-buttons"
@@ -163,18 +171,22 @@ function Questions(props) {
           ))}
         </div>
         <br></br>
-        {questionObjectIndex != props.data.length - 1
-        ? <button
-        className="next-question-button"
-        onClick={handleNextQuestionClick}
-      >
-        Next Question
-      </button> : <button
-        className="finished-quiz-button"
-        onClick={handleFinishQuizClick}
-      >
-        Finish Quiz
-      </button>}
+        {questionObjectIndex != props.data.length - 1 ? (
+          <button
+            className="next-question-button"
+            onClick={handleNextQuestionClick}
+            disabled={selectedAnswer ? false : true}
+          >
+            Next Question
+          </button>
+        ) : (
+          <button
+            className="finished-quiz-button"
+            onClick={handleFinishQuizClick}
+          >
+            Finish Quiz
+          </button>
+        )}
       </div>
       <br></br>
       <div className="back-to-category-page">

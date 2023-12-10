@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Category from "./Category";
 import axios from "axios";
+import nth from "lodash.nth"
 
 function App() {
   const [categories, setCategories] = useState([]);
@@ -10,6 +11,8 @@ function App() {
   const [selectedCategoryID, setSelectedCategoryID] = useState(null);
   const [selectedQAData, setSelectedQAData] = useState([]);
   const [loading, setLoading] = useState(true);
+
+
 
   useEffect(() => {
     console.log("useEffect runs");
