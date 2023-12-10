@@ -127,7 +127,7 @@ function Questions(props) {
       <h2>{props.data[0].category} Quiz!</h2>
       <div className="QA-block">
         <h1>You got {countrecordedCorrectAnswers()} questions right!</h1>
-        <h2>Review your answers here.</h2>
+        <h2><a onClick={handleReturnToCategoryPageClick}>Click here</a> to try another quiz!</h2>
       </div>
       </div>
     );
@@ -146,7 +146,7 @@ function Questions(props) {
       } */}
         <div className="question">
           <strong>Question:</strong>
-          {/* {props.data[questionObjectIndex].question} */}
+          {props.data[questionObjectIndex].question}
           {unescape(props.data[questionObjectIndex].question)}
         </div>
         <br></br>
@@ -163,7 +163,7 @@ function Questions(props) {
           ))}
         </div>
         <br></br>
-        {questionObjectIndex === props.data.length - 1
+        {questionObjectIndex != props.data.length - 1
         ? <button
         className="next-question-button"
         onClick={handleNextQuestionClick}
