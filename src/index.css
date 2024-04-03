@@ -1,28 +1,4 @@
 
-/* this centered things -- in the middle of the page upon vite startup */
-
-/* body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-} */
-
-/* below is the button settings that come with vite, there is a hover (highlighted when hovering) and a focus (adds a border when selected) that are worth repurposing */
-
-/* button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-} */
-
 * {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -46,19 +22,12 @@ a {
 }
 
 .category-list {
-  /* margin: auto;
-  width: 50%; */
   display: grid;
   place-items: center;
   padding: 10px;
   
   
 }
-
-/* .selected-category-div {
-  /* text-align: center; */
-  /* align-self: center; */
-/* } */ 
 
 .QA-headings-block {
   text-align: center;
@@ -84,7 +53,6 @@ button:hover {
 .answer-button2 {
   background-color: #ffc600;
   color: black;
-  /* yellow, pair w/ black */
   } 
 
 .answer-button3 {
@@ -96,12 +64,8 @@ color: white;
 .answer-button4{
 background-color: #056f50;
 color: white;
-  /* green, w/ white */
 }
 
-/* .answer-buttons:focus {
-  background-color: bisque;
-} */
 
 .answer-buttons, .category-buttons {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
