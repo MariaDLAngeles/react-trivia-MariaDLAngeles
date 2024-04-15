@@ -1,9 +1,8 @@
 // import { useState } from 'react'
 import { useEffect, useState } from "react";
-import "./App.css";
+import "./index.css";
 import Category from "./Category";
 import axios from "axios";
-import nth from "lodash.nth"
 
 function App() {
   const [categories, setCategories] = useState([]);
@@ -51,6 +50,8 @@ function App() {
       (category) => category.id === selectedCategoryID
     );
 
+    
+
     return (
       <div className="selected-category">
         {/* right now we are having to click twice to get to our questions */}
@@ -67,11 +68,11 @@ function App() {
   }
   // else
   return (
-    <div className="outer-category-list-div">
-      <h1 className="welcome-title">Welcome to Risky Quizness!</h1>
-      <h2 className="category-instructions">
-        Risky Quizness is a low-stakes way to test your trivia knowledge.
-        <br></br> Choose a category below to start a quiz.
+    <>
+        <main>
+        <h1 className="welcome-title">Welcome to Risky Quizness!</h1>
+      <p className="category-instructions"> Risky Quizness is a low-stakes way to test your trivia knowledge.</p>
+        <h2 className="category-instructions">Choose a category below to start a quiz.
       </h2>
       <div className="category-list">
         {/* <div>{selectedCategoryID}</div> */}
@@ -87,7 +88,8 @@ function App() {
           />
         ))}
       </div>
-    </div>
+      </main>
+    </>
   );
 }
 

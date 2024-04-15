@@ -1,6 +1,6 @@
 # React Trivia Game
 
-This project was completed as part of Momentum Learning's Software Engineering Program. It has been forked from an existing repository and edited for clarity.
+This project was completed as part of Momentum Learning's Software Engineering Program. It has been forked from an existing repository and edited to improve accessibility.
 
 ## Project Descriptions and Requirements from Momentum Learning Course
 

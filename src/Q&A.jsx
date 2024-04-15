@@ -1,12 +1,8 @@
-/* eslint-disable react/prop-types */
-// this component needs to display our questions and answers
-// we navigate here after a category has been selected
-
 import { useEffect, useState } from "react";
 import shuffle from "lodash.shuffle";
-// import nth from "lodash.nth"
 import unescape from "lodash.unescape";
-//LOLOLOLOL -- lodash unescape won't handle apostrophe's, it's not us, it's the SYSTEM. The trivia API is returning &#039; when lodash expects it to be &#39;
+//lodash unescape won't handle apostrophe's, it's not us, it's the SYSTEM.
+// The trivia API is returning &#039; when lodash expects it to be &#39;
 
 function Questions(props) {
   console.log("this is props in questions", props);
@@ -33,7 +29,7 @@ function Questions(props) {
         answerString: props.data[questionObjectIndex].correct_answer,
         isCorrect: true,
       });
-      //next we add the incorrect answers
+      //this is adding the incorrect answers
       props.data[questionObjectIndex].incorrect_answers.forEach(
         (incorrectAnswer) => {
           allAnswers.push({
@@ -51,7 +47,6 @@ function Questions(props) {
       setRecordedCorrectAnswers(
         recordedCorrectAnswers.concat([selectedAnswer])
       );
-      // if isCorrect is true, then change the state to + 1, else do nothing
       console.log("this is", recordedCorrectAnswers);
     }
 
@@ -62,7 +57,6 @@ function Questions(props) {
     );
 
     setSelectedAnswer(null);
-
   };
 
   const handleFinishQuizClick = () => {
@@ -75,8 +69,6 @@ function Questions(props) {
 
   const handleSelectedAnswerClick = (event) => {
     console.log("this is event", event);
-    // answer is event.target.innerText -- technically not react, but the only way out is down
-    // if we have time, we'll change it to make answers its own compontent
     setSelectedAnswer(event.target.innerText);
   };
 
@@ -84,12 +76,20 @@ function Questions(props) {
     props.selectCategory(null);
   };
 
-  // when we click next question, we need to record isCorrect true/false
-  // count how many true (correct)
-  // display count at end of quiz
-
   const incorrectAnswers = props.data.incorrect_answers;
   console.log("this is incorrect answers", incorrectAnswers);
+
+  //lodash expects ' to be &#39
+  //Trivia API is sending us &#039
+  //our fixlodashunescape function targets &#039 and changes it to &#39;
+  //it runs throug lodash
+
+  const fixString = (inputString) => {
+    const newString = inputString.replaceAll('&#039', '&#39')
+    const newNewString = newString.replaceAll('&rsquo;', '&#39')
+    const stringAfterUnescape = unescape(newNewString);
+    return stringAfterUnescape;
+  };
 
   /**
    * props.data is an array like:
@@ -110,92 +110,70 @@ function Questions(props) {
   ]
    */
 
-  
-
-  // we need to combine the correct answer with the incorrect answers, while keeping track of what the correct answer is
-  // we need to shuffle the combined list
-  //we need to take those list items as a new list below the question
-  // they need to be buttons or in some way clickable so we can register an answer
-
-  // we want shuffling to happen to the answers when a question loads, after the question loads the answers should not change. The user clicks the next question and the cycle begins again.
-
-  // on the click of my answer
-  // SELECT the answer (change the color of the button to indicate the change)
-  // disable the next button until a selection is made
-  // if a selection has been made
-  //when we click the next button
-  // record the value of isCorrect from the selected answer
-  // and add it to an empty array
   console.log("this is # of correct", countrecordedCorrectAnswers());
   if (finishedQuiz) {
     return (
-      <div className="QA-headings-block">
+      <div id="QA-headings-block">
         <h2>{props.data[0].category} Quiz!</h2>
-        <div className="QA-block">
-          <h1>You got {countrecordedCorrectAnswers()} questions right!</h1>
-          <h2>
-            <a onClick={handleReturnToCategoryPageClick}>Click here</a> to try
-            another quiz!
-          </h2>
+        <div id="QA-block">
+          <p>You got {countrecordedCorrectAnswers()} questions right!</p>
+          <p>
+            <a onClick={handleReturnToCategoryPageClick}>Try
+            another quiz!</a>
+          </p>
         </div>
       </div>
     );
   }
 
   return isQuestionsEmpty ? null : (
-    <div className="QA-headings-block">
-      <h2>{props.data[0].category} Quiz!</h2>
-      <h3>Choose an answer and click Next Question to continue.</h3>
-      <div className="QA-block">
-        {/* this code was for displaying our questions in a list */}
-        {/* {props.data.map((questionObject) => (
-        <div>{questionObject.question}</div>
-        
-      ))
-      } */}
-        <div className="question">
-          <strong>Question:</strong>{" "}
-          {unescape(props.data[questionObjectIndex].question)}
+    <main>
+      <>
+        <div id="QA-headings-block">
+          <h1>{props.data[0].category} Quiz!</h1>
+          <p>Choose an answer and click Next Question to continue.</p>
+          <p>
+            Go Back to{" "}
+            <a onClick={handleReturnToCategoryPageClick}>Category Page</a>
+          </p>
         </div>
-        <br></br>
-        <div className="answers">
-          {/* <strong>Choose one:</strong>{" "} */}
+        <div id="QA-block">
+          <p className="question-title">Question:</p>{" "}
+          <p className="question-text">
+            {fixString(props.data[questionObjectIndex].question)}
+          </p>
+          <p className="answer-title">Answers: </p>
           {shuffledAnswers.map((answer) => (
             <button
               className="answer-buttons"
               onClick={handleSelectedAnswerClick}
               key={answer.answerString}
             >
-              {unescape(answer.answerString)}
+              {fixString(answer.answerString)}
             </button>
           ))}
+          <br></br>
+          {questionObjectIndex != props.data.length - 1 ? (
+            <button
+              className="next-question-button"
+              onClick={handleNextQuestionClick}
+              disabled={selectedAnswer ? false : true}
+            >
+              Next Question
+            </button>
+          ) : (
+            <button
+              className="finished-quiz-button"
+              onClick={handleFinishQuizClick}
+            >
+              Finish Quiz
+            </button>
+          )}
         </div>
         <br></br>
-        {questionObjectIndex != props.data.length - 1 ? (
-          <button
-            className="next-question-button"
-            onClick={handleNextQuestionClick}
-            disabled={selectedAnswer ? false : true}
-          >
-            Next Question
-          </button>
-        ) : (
-          <button
-            className="finished-quiz-button"
-            onClick={handleFinishQuizClick}
-          >
-            Finish Quiz
-          </button>
-        )}
-      </div>
-      <br></br>
-      <div className="back-to-category-page">
-        <h3>
-          Go Back to{" "}
-          <a onClick={handleReturnToCategoryPageClick}>Category Page</a>
-        </h3>
-      </div>
-    </div>
+        <div className="back-to-category-page"></div>
+      </>
+    </main>
   );
 }
 

@@ -19,6 +19,7 @@ a {
 
 .category-instructions {
   font-weight: lighter;
+  font-size: large;
 }
 
 .category-list {
@@ -26,22 +27,31 @@ a {
   place-items: center;
   padding: 10px;
   
-  
 }
 
-.QA-headings-block {
+#QA-headings-block {
   text-align: center;
+  margin: 40px;
 }
 
+#QA-headings-block p {
+  font-size: large;
+}
+
+#QA-headings-block h1 {
+  font-size: xx-large;
+}
 
 button:hover {
-  border-color: #646cff;
-  background-color: rgb(127, 127, 127);
+  border-color: blueviolet;
+  background-color: black;
+  color: white;
 }
 .answer-buttons:focus,
 .answer-buttons:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-  background-color: rgba(0, 0, 255, 0.487);
+  outline: 4px auto blueviolet;
+  background-color: black;
+  color: white;
 }
 
 .answer-button1 {
@@ -78,7 +88,7 @@ color: white;
 }
 
 
-.QA-block {
+#QA-block {
   border: 2px solid black;
   border-radius: 20px;
   max-width: 600px;
@@ -99,6 +109,16 @@ color: white;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.question {
-  font-size: xx-large;
+.question-title {
+  font-size: x-large;
+  font-weight: 700;
+}
+
+.answer-title {
+  font-size: x-large;
+  font-weight: 700;
+}
+
+.question-text {
+  font-size: large;
 }
